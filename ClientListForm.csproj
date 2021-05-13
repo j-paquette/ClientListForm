@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Audience.cs" />
+    <Compile Include="Entities\Availability.cs" />
+    <Compile Include="Entities\BookTitle.cs" />
+    <Compile Include="Entities\Format.cs" />
+    <Compile Include="Entities\Language.cs" />
+    <Compile Include="Entities\Subject.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,5 +85,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
