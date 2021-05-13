@@ -36,9 +36,8 @@ namespace ClientListForm
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.DisplayTitles = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.displayButton = new System.Windows.Forms.Button();
+            this.closButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +78,7 @@ namespace ClientListForm
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -105,41 +105,35 @@ namespace ClientListForm
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.DisplayTitles);
-            this.flowLayoutPanel1.Controls.Add(this.button2);
-            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.displayButton);
+            this.flowLayoutPanel1.Controls.Add(this.closButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 254);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(522, 37);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
-            // DisplayTitles
+            // displayButton
             // 
-            this.DisplayTitles.Location = new System.Drawing.Point(3, 3);
-            this.DisplayTitles.Name = "DisplayTitles";
-            this.DisplayTitles.Size = new System.Drawing.Size(24, 15);
-            this.DisplayTitles.TabIndex = 5;
-            this.DisplayTitles.Text = "Display";
-            this.DisplayTitles.UseVisualStyleBackColor = true;
+            this.displayButton.AutoSize = true;
+            this.displayButton.Location = new System.Drawing.Point(3, 3);
+            this.displayButton.Name = "displayButton";
+            this.displayButton.Size = new System.Drawing.Size(70, 35);
+            this.displayButton.TabIndex = 5;
+            this.displayButton.Text = "Display";
+            this.displayButton.UseVisualStyleBackColor = true;
+            this.displayButton.Click += new System.EventHandler(this.displayButton_Click);
             // 
-            // button2
+            // closButton
             // 
-            this.button2.Location = new System.Drawing.Point(33, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(24, 15);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(63, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(24, 15);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.closButton.AutoSize = true;
+            this.closButton.Location = new System.Drawing.Point(79, 3);
+            this.closButton.Name = "closButton";
+            this.closButton.Size = new System.Drawing.Size(70, 35);
+            this.closButton.TabIndex = 6;
+            this.closButton.Text = "Close";
+            this.closButton.UseVisualStyleBackColor = true;
+            this.closButton.Click += new System.EventHandler(this.closButton_Click);
             // 
             // Form1
             // 
@@ -151,6 +145,7 @@ namespace ClientListForm
             this.Text = "ListViewer";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -164,9 +159,8 @@ namespace ClientListForm
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button DisplayTitles;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button displayButton;
+        private System.Windows.Forms.Button closButton;
     }
 }
 
