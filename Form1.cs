@@ -21,5 +21,20 @@ namespace ClientListForm
         {
 
         }
+
+        private void displayButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void closButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
