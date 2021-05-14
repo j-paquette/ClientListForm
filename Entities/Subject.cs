@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace ClientListForm.Entities
 {
     /// <summary>
-    /// Reader chooses which subject to filter their search. 
+    /// Reader can choose from only the list of available subjects to filter their search. 
     /// </summary>
-    public class Subject
+    public enum Subject
     {
-        public string Fiction { get; set; }
-        public string Nonfiction { get; set; }
-        public string Mystery { get; set; }
-        public string Humour { get; set; }
+        Fiction,
+        Nonfiction,
+        Mystery,
+        Humour
     }
 }

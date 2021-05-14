@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 namespace ClientListForm.Entities
 {
     /// <summary>
-    /// Reader will choose their preferred reading language. 
+    /// Reader will choose their preferred reading language.
+    /// TODO: Add a hard-coded list of languages by name and the code assigned to it.
     /// </summary>
     public class Language
     {
-        public string English { get; set; }
-        public string French { get; set; }
-        public string Inuktitut { get; set; }
-        public string Any { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
     }
 }
