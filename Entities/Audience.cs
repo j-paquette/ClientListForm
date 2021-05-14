@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 namespace ClientListForm.Entities
 {
     /// <summary>
+    /// The reader can choose the book they want filtered by content type.
     /// Where the reader type object is stored.
     /// Similar to EWSUserDetails.Entities.WebServiceEntry
     /// </summary>
-    public class Audience
+    public enum Audience
     {
-        public string Juvenile { get; set; }
-        public string YoungAdult { get; set; }
-        public string GeneralContent { get; set; }
-        public string MatureContent { get; set; }
+        Juvenile,
+        YoungAdult,
+        GeneralContent,
+        MatureContent
     }
 }

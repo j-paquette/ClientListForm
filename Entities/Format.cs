@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 namespace ClientListForm.Entities
 {
     /// <summary>
-    /// The type of format the reader chooses to download the book title.
+    /// The reader can only choose from the list of formats listed.
+    /// Where the format type object is stored.
+    /// Creates a new object with type Format, but this is still a class.
     /// </summary>
-    public class Format
+    public enum Format
     {
-        public string Ebook { get; set; }
-        public string Audiobook { get; set; }
-        public string Magazines { get; set; }
+        Ebook,
+        Audiobook,
+        Magazine
     }
 }
