@@ -11,7 +11,7 @@ namespace ClientListForm.Entities
     /// </summary>
     public class Library
     {
-        public List<PublicationTitle> Titles { get; set; } = new List<PublicationTitle>();
+        public List<PublicationTitle> Titles { get; set; } 
         public DateTime InventoryDate { get; set; }
     }
 }
