@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Audience.cs" />
+    <Compile Include="Entities\Availability.cs" />
     <Compile Include="Entities\Format.cs" />
     <Compile Include="Entities\Library.cs" />
     <Compile Include="Entities\PublicationTitle.cs" />
@@ -59,6 +60,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LibraryDetails.cs" />
+    <Compile Include="LibraryProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

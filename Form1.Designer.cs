@@ -31,10 +31,6 @@ namespace ClientListForm
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.displayButton = new System.Windows.Forms.Button();
             this.closButton = new System.Windows.Forms.Button();
@@ -63,15 +59,11 @@ namespace ClientListForm
             // listView1
             // 
             this.listView1.AllowColumnReorder = true;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(522, 245);
             this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
@@ -79,29 +71,6 @@ namespace ClientListForm
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Book Title";
-            this.columnHeader1.Width = 85;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Author";
-            this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader2.Width = 85;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Format";
-            this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader3.Width = 85;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Cost";
-            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader4.Width = 85;
             // 
             // flowLayoutPanel1
             // 
@@ -133,7 +102,7 @@ namespace ClientListForm
             this.closButton.TabIndex = 6;
             this.closButton.Text = "Close";
             this.closButton.UseVisualStyleBackColor = true;
-            this.closButton.Click += new System.EventHandler(this.closButton_Click);
+            this.closButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // Form1
             // 
@@ -143,6 +112,7 @@ namespace ClientListForm
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Form1";
             this.Text = "ListViewer";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -154,10 +124,6 @@ namespace ClientListForm
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button displayButton;
         private System.Windows.Forms.Button closButton;
