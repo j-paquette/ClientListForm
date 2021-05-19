@@ -13,21 +13,16 @@ namespace ClientListForm
     /// </summary>
     public class LibraryDetails : LibraryProvider
     {
-        public string LanguageCode { get; set; }
+        public List<Language> Languages { get; set; }
 
-        public string LanguageName { get; set; }
-
-        public LibraryDetails() : this(new Language(), "1", "English")
+        public LibraryDetails() : this(new List<Language>())
         {
 
         }
 
-        public LibraryDetails(Language language, string languageCode, string languageName)
+        public LibraryDetails(List<Language> languages)
         {
-            Language languageDetails = new Language();
-
-            this.LanguageCode = languageCode;
-            this.LanguageName = languageName;
+            this.Languages = languages;
         }
 
         /// <summary>
@@ -60,12 +55,10 @@ namespace ClientListForm
                 Title = "Where'd You Go, Bernadette",
                 TargetAudience = Audience.GeneralContent,
                 Author = "Maria Semple",
-                this.LanguageCode = "1",
-                this.LanguageName,
                 MainSubject = Subject.Fiction,
                 Available = true,
                 PublicationDate = DateTime.Now,
-            }
+            };
 
             publicationTitleList.Add(publications);
 
@@ -75,10 +68,11 @@ namespace ClientListForm
                 BorrowedCount = 1
             });
 
-            publications.PublicationLanguageAdd(new Language()
+            publications.PublicationLanguages.Add(new Language()
             {
-
-            })
+                Code = "1",
+                Name = "English"
+            });
         }
     }
 }

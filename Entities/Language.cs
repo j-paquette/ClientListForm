@@ -9,6 +9,7 @@ namespace ClientListForm.Entities
     /// <summary>
     /// Reader will choose their preferred reading language.
     /// TODO: Add a hard-coded list of languages by name and the code assigned to it.
+    /// Similar to ClientListReport.Entities.WebServiceEntry??
     /// </summary>
     public class Language
     {
