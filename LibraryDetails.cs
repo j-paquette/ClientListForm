@@ -13,6 +13,18 @@ namespace ClientListForm
     /// </summary>
     public class LibraryDetails : LibraryProvider
     {
+        public List<Language> Languages { get; set; }
+
+        public LibraryDetails() : this(new List<Language>())
+        {
+
+        }
+
+        public LibraryDetails(List<Language> languages)
+        {
+            this.Languages = languages;
+        }
+
         /// <summary>
         /// Returns a list publicationTitles which is populated by hard-coded values from method UpdateListWithPublicationTitle.
         /// </summary>
@@ -43,19 +55,23 @@ namespace ClientListForm
                 Title = "Where'd You Go, Bernadette",
                 TargetAudience = Audience.GeneralContent,
                 Author = "Maria Semple",
-                PublicationLanguage.Code = "1",
-                PublicationLanguage.Name = "English",
                 MainSubject = Subject.Fiction,
                 Available = true,
                 PublicationDate = DateTime.Now,
-            }
+            };
 
             publicationTitleList.Add(publications);
 
-            publications.FormatEntry.Add(new FormatEntry()
+            publications.Formats.Add(new FormatEntry()
             {
-                BookFormat = Ebook,
+                BookFormat = Format.Ebook,
                 BorrowedCount = 1
+            });
+
+            publications.PublicationLanguages.Add(new Language()
+            {
+                Code = "1",
+                Name = "English"
             });
         }
     }

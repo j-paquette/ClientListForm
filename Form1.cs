@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClientListForm;
 
 namespace ClientListForm
 {
@@ -24,15 +25,23 @@ namespace ClientListForm
 
         private void displayButton_Click(object sender, EventArgs e)
         {
-
+            if(true)
+            {
+                listView1.FullRowSelect = true;
+            }
         }
 
-        private void closButton_Click(object sender, EventArgs e)
+        private void closeButton_Click(object sender, EventArgs e)
         {
 
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
