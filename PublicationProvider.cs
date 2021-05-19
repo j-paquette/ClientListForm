@@ -11,16 +11,16 @@ namespace ClientListForm
     /// Creates an empty list called publicationTitles and populates it with hard-coded values.
     /// The list will be used to display the results to the Windows form Listview.
     /// </summary>
-    public class LibraryDetails : LibraryProvider
+    public class PublicationProvider : LibraryProvider
     {
         public List<Language> Languages { get; set; }
 
-        public LibraryDetails() : this(new List<Language>())
+        public PublicationProvider() : this(new List<Language>())
         {
 
         }
 
-        public LibraryDetails(List<Language> languages)
+        public PublicationProvider(List<Language> languages)
         {
             this.Languages = languages;
         }

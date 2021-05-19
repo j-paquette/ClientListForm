@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,14 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClientListForm;
+using ClientListForm.Entities;
 
 namespace ClientListForm
 {
     public partial class Form1 : Form
     {
+        PublicationProvider publicationProvider = new PublicationProvider();
         public Form1()
         {
             InitializeComponent();
+            publicationProvider.GetLibraryData();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -25,10 +29,7 @@ namespace ClientListForm
 
         private void displayButton_Click(object sender, EventArgs e)
         {
-            if(true)
-            {
-                listView1.FullRowSelect = true;
-            }
+            publicationProvider.GetLibraryData();
         }
 
         private void closeButton_Click(object sender, EventArgs e)
