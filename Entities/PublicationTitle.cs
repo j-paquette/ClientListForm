@@ -18,7 +18,7 @@ namespace ClientListForm.Entities
         public Audience TargetAudience { get; set; }
         public string Author { get; set; }
         public List<Language> PublicationLanguages { get; set; } = new List<Language>();
-        public List<FormatEntry> Formats { get; set; }
+        public List<FormatEntry> Formats { get; set; } = new List<FormatEntry>();
         public Subject MainSubject { get; set; } 
         public bool Available { get; set; }
         public DateTime PublicationDate { get; set; }

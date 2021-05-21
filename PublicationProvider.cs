@@ -15,9 +15,19 @@ namespace ClientListForm
     {
         public List<Language> Languages { get; set; }
 
-        public PublicationProvider() : this(new List<Language>())
+        public PublicationProvider() //: this(new List<Language>())
         {
-
+            this.Languages = new List<Language>();
+            this.Languages.Add(new Language()
+            {
+                Code = "1",
+                Name = "English"
+            });
+            this.Languages.Add(new Language()
+            {
+                Code = "2",
+                Name = "French"
+            });
         }
 
         public PublicationProvider(List<Language> languages)
@@ -39,7 +49,7 @@ namespace ClientListForm
             //var data = new Library();
             //data.Titles = publicationTitles;
             //return data;
-            return new Library { Titles = publicationTitles };
+            return new Library { Titles = publicationTitles, InventoryDate = DateTime.Now };
         }
 
         /// <summary>
@@ -48,9 +58,9 @@ namespace ClientListForm
         /// <param name="publicationTitleList"></param>
         public void UpdateListWithPublicationTitle(List<PublicationTitle> publicationTitleList)
         {
-            PublicationTitle publications;
+            PublicationTitle publication;
 
-            publications = new PublicationTitle()
+            publication = new PublicationTitle()
             {
                 Title = "Where'd You Go, Bernadette",
                 TargetAudience = Audience.GeneralContent,
@@ -60,19 +70,40 @@ namespace ClientListForm
                 PublicationDate = DateTime.Now,
             };
 
-            publicationTitleList.Add(publications);
-
-            publications.Formats.Add(new FormatEntry()
+            publication.Formats.Add(new FormatEntry()
             {
                 BookFormat = Format.Ebook,
                 BorrowedCount = 1
             });
 
-            publications.PublicationLanguages.Add(new Language()
+            publication.PublicationLanguages.Add(this.Languages[0]);
+
+            publicationTitleList.Add(publication);
+
+            //add new record
+            publication = new PublicationTitle()
             {
-                Code = "1",
-                Name = "English"
+                Title = "Found her!",
+                TargetAudience = Audience.GeneralContent,
+                Author = "Maria Semple",
+                MainSubject = Subject.Fiction,
+                Available = true,
+                PublicationDate = DateTime.Now,
+            };
+
+            publication.Formats.Add(new FormatEntry()
+            {
+                BookFormat = Format.Ebook,
+                BorrowedCount = 2
             });
+
+            publication.PublicationLanguages.Add(this.Languages[0]);
+            publication.PublicationLanguages.Add(this.Languages[1]);
+
+            publicationTitleList.Add(publication);
+
+            //TODO: add more records with different selections (ie, languages, etc in the wrong sorting order to test the sort
+            //TODO: after previous TODO add filter for records
         }
     }
 }
