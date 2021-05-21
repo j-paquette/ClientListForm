@@ -19,7 +19,6 @@ namespace ClientListForm
         public Form1()
         {
             InitializeComponent();
-            publicationProvider.GetLibraryData();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -29,7 +28,31 @@ namespace ClientListForm
 
         private void displayButton_Click(object sender, EventArgs e)
         {
-            publicationProvider.GetLibraryData();
+            Library library = publicationProvider.GetLibraryData();
+            //TODO: add clear, so I don't add multiple records
+            //TODO: check properties for sorting
+            //TODO: move the event handler to load records into a separate method.
+            foreach (PublicationTitle title in library.Titles)
+            {
+                //TODO: create a ListViewItem
+                ListViewItem row = new ListViewItem(title.Title);
+                row.SubItems.Add(title.Author);
+                row.SubItems.Add(title.TargetAudience.ToString());
+
+                //TODO: instead of var, IEnumerable<string>
+                //Select is a functional programming
+                var languages = title.PublicationLanguages.Select(l => l.Name);
+                //TODO: lookup "Join" docs, and add explanation later
+                string languagesText = string.Join(", ", languages);
+
+                row.SubItems.Add(languagesText);
+
+                this.lv_Library.Items.Add(row);
+                
+            }
+
+            this.lv_Library.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            //TODO: set the Updated label value to library.InventoryDate
         }
 
         private void closeButton_Click(object sender, EventArgs e)
