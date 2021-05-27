@@ -22,11 +22,16 @@ namespace ClientListForm
             {
                 Code = "1",
                 Name = "English"
-            });
+            }); ; ;
             this.Languages.Add(new Language()
             {
                 Code = "2",
                 Name = "French"
+            });
+            this.Languages.Add(new Language()
+            {
+                Code = "3",
+                Name = "Inuktut"
             });
         }
 
@@ -60,6 +65,7 @@ namespace ClientListForm
         {
             PublicationTitle publication;
 
+            //add new record
             publication = new PublicationTitle()
             {
                 Title = "Where'd You Go, Bernadette",
@@ -67,7 +73,7 @@ namespace ClientListForm
                 Author = "Maria Semple",
                 MainSubject = Subject.Fiction,
                 Available = true,
-                PublicationDate = DateTime.Now,
+                PublicationDate = new DateTime(2012, 08, 13),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -88,7 +94,7 @@ namespace ClientListForm
                 Author = "Maria Semple",
                 MainSubject = Subject.Fiction,
                 Available = true,
-                PublicationDate = DateTime.Now,
+                PublicationDate = new DateTime(2013, 04, 22),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -99,6 +105,92 @@ namespace ClientListForm
 
             publication.PublicationLanguages.Add(this.Languages[0]);
             publication.PublicationLanguages.Add(this.Languages[1]);
+
+            publicationTitleList.Add(publication);
+
+            //add new record
+            publication = new PublicationTitle()
+            {
+                Title = "Grasp",
+                TargetAudience = Audience.GeneralContent,
+                Author = "Sanjay Sarma",
+                MainSubject = Subject.Nonfiction,
+                Available = false,
+                PublicationDate = new DateTime(2020, 08, 18),
+            };
+
+            publication.Formats.Add(new FormatEntry()
+            {
+                BookFormat = Format.Audiobook,
+                BorrowedCount = 1
+            });
+
+            publication.PublicationLanguages.Add(this.Languages[0]);
+
+            publicationTitleList.Add(publication);
+
+            //add new record
+            publication = new PublicationTitle()
+            {
+                Title = "Arsene Lupin, gentleman-cambrioleur",
+                TargetAudience = Audience.GeneralContent,
+                Author = "Maurice Leblanc",
+                MainSubject = Subject.Fiction,
+                Available = true,
+                PublicationDate = new DateTime(1907, 06, 10),
+            };
+
+            publication.Formats.Add(new FormatEntry()
+            {
+                BookFormat = Format.Ebook,
+                BorrowedCount = 1
+            });
+
+            publication.PublicationLanguages.Add(this.Languages[1]);
+
+            publicationTitleList.Add(publication);
+
+            //add new record
+            publication = new PublicationTitle()
+            {
+                Title = "Squeeze Me",
+                TargetAudience = Audience.YoungAdult,
+                Author = "Carl Hiaasen",
+                MainSubject = Subject.Mystery,
+                Available = false,
+                PublicationDate = new DateTime(2020, 08, 24),
+            };
+
+            publication.Formats.Add(new FormatEntry()
+            {
+                BookFormat = Format.Ebook,
+                BorrowedCount = 1
+            });
+
+            publication.PublicationLanguages.Add(this.Languages[0]);
+
+            publicationTitleList.Add(publication);
+
+            //add new record
+            publication = new PublicationTitle()
+            {
+                Title = "Protegez-vous",
+                TargetAudience = Audience.GeneralContent,
+                Author = "Québec ex.",
+                MainSubject = Subject.Nonfiction,
+                Available = true,
+                PublicationDate = new DateTime(1973, 03, 10),
+            };
+
+            publication.Formats.Add(new FormatEntry()
+            {
+                BookFormat = Format.Magazine,
+                BorrowedCount = 1
+            });
+
+            publication.PublicationLanguages.Add(this.Languages[1]);
+            publication.PublicationLanguages.Add(this.Languages[2]);
+
 
             publicationTitleList.Add(publication);
 

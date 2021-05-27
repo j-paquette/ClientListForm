@@ -29,6 +29,9 @@ namespace ClientListForm
         private void displayButton_Click(object sender, EventArgs e)
         {
             Library library = publicationProvider.GetLibraryData();
+            //Clear any exising records, not to duplicate them
+            lv_Library.Items.Clear();
+
             //TODO: add clear, so I don't add multiple records
             //TODO: check properties for sorting
             //TODO: move the event handler to load records into a separate method.
@@ -46,18 +49,28 @@ namespace ClientListForm
                 string languagesText = string.Join(", ", languages);
 
                 row.SubItems.Add(languagesText);
+                //Add Format records from the list
+                var formats = title.Formats.Select(f => f.BookFormat);
+                string formatText = string.Join(", ", formats);
+                row.SubItems.Add(formatText);
+
+                //Add the remaining columns
+                row.SubItems.Add(title.MainSubject.ToString());
+                row.SubItems.Add(title.Available.ToString());
+                row.SubItems.Add(title.PublicationDate.ToString());
 
                 this.lv_Library.Items.Add(row);
-                
             }
 
             this.lv_Library.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
             //TODO: set the Updated label value to library.InventoryDate
+            lbl_UpdatedValue.Text = library.InventoryDate.ToString();
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -68,6 +81,11 @@ namespace ClientListForm
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void lbl_UpdatedValue_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
