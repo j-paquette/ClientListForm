@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClientListForm;
 using ClientListForm.Entities;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ClientListForm
 {
@@ -35,7 +36,20 @@ namespace ClientListForm
             //TODO: add clear, so I don't add multiple records
             //TODO: check properties for sorting
             //TODO: move the event handler to load records into a separate method.
-            foreach (PublicationTitle title in library.Titles)
+
+            IEnumerable<PublicationTitle> filteredTitles; 
+
+            //if slected All, don't apply the filter
+            if(this.cbo_Languages.SelectedItem.Equals("All"))
+            {
+                filteredTitles = library.Titles;
+            }
+            else
+            {
+                filteredTitles = library.Titles.Where(t => t.PublicationLanguages.Any(l => l.Name.Equals(this.cbo_Languages.SelectedItem)));
+            }
+
+            foreach (PublicationTitle title in filteredTitles)
             {
                 //TODO: create a ListViewItem
                 ListViewItem row = new ListViewItem(title.Title);
@@ -57,7 +71,7 @@ namespace ClientListForm
                 //Add the remaining columns
                 row.SubItems.Add(title.MainSubject.ToString());
                 row.SubItems.Add(title.Available.ToString());
-                row.SubItems.Add(title.PublicationDate.ToString());
+                row.SubItems.Add(title.PublicationDate.ToString("yyyy-MM-dd"));
 
                 this.lv_Library.Items.Add(row);
             }
@@ -75,17 +89,58 @@ namespace ClientListForm
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //FilterDescriptor typeFilter = new FilterDescriptor("Type", FilterOperator.Contains, "Title");
+            //lv_Library.EnableFiltering = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            //Selects All by default
+            this.cbo_Languages.SelectedIndex = 0;
         }
 
         private void lbl_UpdatedValue_Click(object sender, EventArgs e)
         {
             
         }
+
+        private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Clear any exising records, not to duplicate them
+            lv_Library.Items.Clear();
+        }
+
+        private async void btn_Export_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(new FileStream(saveFileDialog.FileName, FileMode.Create), Encoding.UTF8))
+                    {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
+                        foreach (ListViewItem item in lv_Library.Items)
+                        {
+                            stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                                item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
+                                item.SubItems[6].Text, item.SubItems[7].Text));
+                        }
+                        await streamWriter.WriteLineAsync(stringBuilder.ToString());
+                        MessageBox.Show("Your data has been successfully exported.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
+        //TODO: add a new button called Export that will export to a .csv file
+        //when you click the button, it will show a fileSaveDialog to let user choose where to save
+        //user click ok
+        //foreach (PublicationTitle title in filteredTitles)
+        //{ file.writeline) or something like this
+        //similar to writeline. check my old code in ClientListReport
+        //use try catch to catch any exceptions "messageBox.Show" to display the message to the user
+
+        //TODO: 
     }
 }
