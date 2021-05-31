@@ -29,18 +29,22 @@ namespace ClientListForm
 
         private void displayButton_Click(object sender, EventArgs e)
         {
+            //TODO: Click events don't need a Delegate? Or are they only used when you need to create a custom Event Handler?
+            //Explanation here: https://docs.microsoft.com/en-us/dotnet/standard/events/
+            //Examples here: https://docs.microsoft.com/en-us/dotnet/standard/events/how-to-raise-and-consume-events
+            this.PopulateListView();
+        }
+
+        public void PopulateListView()
+        {
             Library library = publicationProvider.GetLibraryData();
             //Clear any exising records, not to duplicate them
             lv_Library.Items.Clear();
 
-            //TODO: add clear, so I don't add multiple records
-            //TODO: check properties for sorting
-            //TODO: move the event handler to load records into a separate method.
-
-            IEnumerable<PublicationTitle> filteredTitles; 
+            IEnumerable<PublicationTitle> filteredTitles;
 
             //if slected All, don't apply the filter
-            if(this.cbo_Languages.SelectedItem.Equals("All"))
+            if (this.cbo_Languages.SelectedItem.Equals("All"))
             {
                 filteredTitles = library.Titles;
             }
@@ -51,7 +55,6 @@ namespace ClientListForm
 
             foreach (PublicationTitle title in filteredTitles)
             {
-                //TODO: create a ListViewItem
                 ListViewItem row = new ListViewItem(title.Title);
                 row.SubItems.Add(title.Author);
                 row.SubItems.Add(title.TargetAudience.ToString());
@@ -59,7 +62,7 @@ namespace ClientListForm
                 //TODO: instead of var, IEnumerable<string>
                 //Select is a functional programming
                 var languages = title.PublicationLanguages.Select(l => l.Name);
-                //TODO: lookup "Join" docs, and add explanation later
+
                 string languagesText = string.Join(", ", languages);
 
                 row.SubItems.Add(languagesText);
@@ -78,7 +81,6 @@ namespace ClientListForm
 
             this.lv_Library.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
-            //TODO: set the Updated label value to library.InventoryDate
             lbl_UpdatedValue.Text = library.InventoryDate.ToString();
         }
 
@@ -112,35 +114,50 @@ namespace ClientListForm
 
         private async void btn_Export_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
+            this.ExportListView();
+        }
+
+        /// <summary>
+        /// TODO: add a new button called Export that will export to a .csv file
+        /// when you click the button, it will show a fileSaveDialog to let user choose where to save
+        /// user click ok
+        /// foreach (PublicationTitle title in filteredTitles)
+        /// { file.writeline) or something like this
+        /// similar to writeline. check my old code in ClientListReport
+        /// use try catch to catch any exceptions "messageBox.Show" to display the message to the user
+        /// </summary>
+        public async void ExportListView()
+        {
+            try
             {
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(new FileStream(saveFileDialog.FileName, FileMode.Create), Encoding.UTF8))
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
-                        foreach (ListViewItem item in lv_Library.Items)
+                        using (StreamWriter streamWriter = new StreamWriter(new FileStream(saveFileDialog.FileName, FileMode.Create), Encoding.UTF8))
                         {
-                            stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
-                                item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
-                                item.SubItems[6].Text, item.SubItems[7].Text));
+                            StringBuilder stringBuilder = new StringBuilder();
+                            stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
+                            foreach (ListViewItem item in lv_Library.Items)
+                            {
+                                stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                                    item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
+                                    item.SubItems[6].Text, item.SubItems[7].Text));
+                            }
+                            await streamWriter.WriteLineAsync(stringBuilder.ToString());
+                            MessageBox.Show("Your data has been successfully exported.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        await streamWriter.WriteLineAsync(stringBuilder.ToString());
-                        MessageBox.Show("Your data has been successfully exported.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        //TODO: add a new button called Export that will export to a .csv file
-        //when you click the button, it will show a fileSaveDialog to let user choose where to save
-        //user click ok
-        //foreach (PublicationTitle title in filteredTitles)
-        //{ file.writeline) or something like this
-        //similar to writeline. check my old code in ClientListReport
-        //use try catch to catch any exceptions "messageBox.Show" to display the message to the user
 
-        //TODO: 
+
+    //TODO: 
     }
 }
