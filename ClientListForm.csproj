@@ -194,6 +194,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvConversion.cs" />
     <Compile Include="Entities\Audience.cs" />
     <Compile Include="Entities\Availability.cs" />
     <Compile Include="Entities\Format.cs" />

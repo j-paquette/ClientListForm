@@ -1,16 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ClientListForm;
 using ClientListForm.Entities;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ClientListForm
 {
@@ -112,7 +107,7 @@ namespace ClientListForm
             lv_Library.Items.Clear();
         }
 
-        private async void btn_Export_Click(object sender, EventArgs e)
+        private void btn_Export_Click(object sender, EventArgs e)
         {
             this.ExportListView();
         }
@@ -140,10 +135,18 @@ namespace ClientListForm
                             stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
                             foreach (ListViewItem item in lv_Library.Items)
                             {
-                                stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                                //escape any text including commas, backslash, next line in order to convert it to .csv
+                                //CsvConversion.ConvertStringToCsv(item.ToString());
+
+                                stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
                                     item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
                                     item.SubItems[6].Text, item.SubItems[7].Text));
+
+                                //stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                                //    item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
+                                //    item.SubItems[6].Text, item.SubItems[7].Text));
                             }
+                            
                             await streamWriter.WriteLineAsync(stringBuilder.ToString());
                             MessageBox.Show("Your data has been successfully exported.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
@@ -155,9 +158,5 @@ namespace ClientListForm
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
-    //TODO: 
     }
 }
