@@ -49,6 +49,8 @@ namespace ClientListForm
             List<PublicationTitle> publicationTitles = new List<PublicationTitle>();
 
             UpdateListWithPublicationTitle(publicationTitles);
+            //TODO: find a simple way to add multithreading for when getting records from db takes along time
+            //System.Threading.Thread.Sleep(45000);
 
             //A more detailed example to show the process
             //var data = new Library();
