@@ -50,6 +50,7 @@ namespace ClientListForm
 
             UpdateListWithPublicationTitle(publicationTitles);
             //TODO: find a simple way to add multithreading for when getting records from db takes along time
+            //uncomment to simulate the app taking a long time to run
             //System.Threading.Thread.Sleep(45000);
 
             //A more detailed example to show the process
@@ -195,9 +196,6 @@ namespace ClientListForm
 
 
             publicationTitleList.Add(publication);
-
-            //TODO: add more records with different selections (ie, languages, etc in the wrong sorting order to test the sort
-            //TODO: after previous TODO add filter for records
         }
     }
 }

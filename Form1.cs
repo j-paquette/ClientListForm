@@ -24,15 +24,18 @@ namespace ClientListForm
 
         private void displayButton_Click(object sender, EventArgs e)
         {
-            //TODO: Click events don't need a Delegate? Or are they only used when you need to create a custom Event Handler?
-            //Explanation here: https://docs.microsoft.com/en-us/dotnet/standard/events/
-            //Examples here: https://docs.microsoft.com/en-us/dotnet/standard/events/how-to-raise-and-consume-events
             this.PopulateListView();
         }
 
         public void PopulateListView()
         {
+            //TODO: split this to a separate method
+            //business layer. 
             Library library = publicationProvider.GetLibraryData();
+
+            //TODO: keep this in this method
+            //get the library as a parameter
+            //start here: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
             //Clear any exising records, not to duplicate them
             lv_Library.Items.Clear();
 
@@ -45,6 +48,10 @@ namespace ClientListForm
             }
             else
             {
+                //TODO: move library.Titles.Where to Library
+                //This can be used in different scenarios
+                //name method GetTitlesByLanguageName(string languageName)
+                //returns an IEnumerable<PublicationTitle>
                 filteredTitles = library.Titles.Where(t => t.PublicationLanguages.Any(l => l.Name.Equals(this.cbo_Languages.SelectedItem)));
             }
 
@@ -86,8 +93,7 @@ namespace ClientListForm
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //FilterDescriptor typeFilter = new FilterDescriptor("Type", FilterOperator.Contains, "Title");
-            //lv_Library.EnableFiltering = true;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -103,8 +109,7 @@ namespace ClientListForm
 
         private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Clear any exising records, not to duplicate them
-            lv_Library.Items.Clear();
+            this.PopulateListView();
         }
 
         private void btn_Export_Click(object sender, EventArgs e)
@@ -120,8 +125,9 @@ namespace ClientListForm
         /// { file.writeline) or something like this
         /// similar to writeline. check my old code in ClientListReport
         /// use try catch to catch any exceptions "messageBox.Show" to display the message to the user
+        /// this method exports the records from the UI, not the library. In case of too many records to display in UI, not all records would be exported.
         /// </summary>
-        public async void ExportListView()
+        public void ExportListView()
         {
             try
             {
@@ -135,19 +141,11 @@ namespace ClientListForm
                             stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
                             foreach (ListViewItem item in lv_Library.Items)
                             {
-                                //escape any text including commas, backslash, next line in order to convert it to .csv
-                                //CsvConversion.ConvertStringToCsv(item.ToString());
-
-                                stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
-                                    item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
-                                    item.SubItems[6].Text, item.SubItems[7].Text));
-
-                                //stringBuilder.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
-                                //    item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text,
-                                //    item.SubItems[6].Text, item.SubItems[7].Text));
+                                //Note: if this was a web app, use STreamwriter.writeline so as not to save the whole record in memory before saving.
+                                stringBuilder.AppendLine($"{CsvConversion.SimpleConvert(item.SubItems[0].Text)},{CsvConversion.SimpleConvert(item.SubItems[1].Text)},{CsvConversion.SimpleConvert(item.SubItems[2].Text)},{CsvConversion.SimpleConvert(item.SubItems[3].Text)},{CsvConversion.SimpleConvert(item.SubItems[4].Text)},{CsvConversion.SimpleConvert(item.SubItems[5].Text)},{CsvConversion.SimpleConvert(item.SubItems[6].Text)},{CsvConversion.SimpleConvert(item.SubItems[7].Text)}");
                             }
                             
-                            await streamWriter.WriteLineAsync(stringBuilder.ToString());
+                            streamWriter.WriteLine(stringBuilder.ToString());
                             MessageBox.Show("Your data has been successfully exported.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
@@ -155,7 +153,7 @@ namespace ClientListForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

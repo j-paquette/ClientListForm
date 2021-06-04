@@ -32,5 +32,24 @@ namespace ClientListForm
             }
             return str;
         }
+
+        /// <summary>
+        /// To return string that is csv-safe
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string SimpleConvert(string str)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("\"");
+            //replaces any double-quotes inside the string by 2 double-quotes
+            stringBuilder.Append(str.Replace("\"", "\"\""));
+            stringBuilder.Append("\"");
+
+            //returns the string inside double-quotes
+            return stringBuilder.ToString();
+
+
+        }
     }
 }
