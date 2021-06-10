@@ -6,12 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ClientListForm.Entities;
+using Microsoft.Extensions.DependencyModel;
+using Library = ClientListForm.Entities.Library;
 
 namespace ClientListForm
 {
     public partial class Form1 : Form
     {
+        //public Library Library { get; set; }
+        //public PublicationProvider PublicationProvider {get; set; }
+
         PublicationProvider publicationProvider = new PublicationProvider();
+
+        //public Form1(PublicationProvider publicationProvider)
+        //{
+        //    InitializeComponent();
+        //    this.PublicationProvider = publicationProvider;
+        //}
+
         public Form1()
         {
             InitializeComponent();
@@ -27,13 +39,23 @@ namespace ClientListForm
             this.PopulateListView();
         }
 
+        public Library GetLibrary()
+        {
+            Library library = publicationProvider.GetLibraryData();
+
+            return library;
+        }
+
         public void PopulateListView()
         {
             //TODO: split this to a separate method
             //business layer. 
             Library library = publicationProvider.GetLibraryData();
 
+            //Library library = this.PublicationProvider.GetLibraryData();
+
             //TODO: keep this in this method
+            //application layer
             //get the library as a parameter
             //start here: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
             //Clear any exising records, not to duplicate them
@@ -48,7 +70,7 @@ namespace ClientListForm
             }
             else
             {
-                //TODO: move library.Titles.Where to Library
+                //TODO: move library.Titles.Where to Library.cs
                 //This can be used in different scenarios
                 //name method GetTitlesByLanguageName(string languageName)
                 //returns an IEnumerable<PublicationTitle>
@@ -118,14 +140,12 @@ namespace ClientListForm
         }
 
         /// <summary>
-        /// TODO: add a new button called Export that will export to a .csv file
-        /// when you click the button, it will show a fileSaveDialog to let user choose where to save
+        /// Export button that exports records displayed in UI to a .csv file
+        /// Clicking the button shows a fileSaveDialog to let user choose where to save
         /// user click ok
-        /// foreach (PublicationTitle title in filteredTitles)
-        /// { file.writeline) or something like this
-        /// similar to writeline. check my old code in ClientListReport
-        /// use try catch to catch any exceptions "messageBox.Show" to display the message to the user
-        /// this method exports the records from the UI, not the library. In case of too many records to display in UI, not all records would be exported.
+        /// Exceptions are displayed to user in a MessageBox.Show
+        /// This method exports the records from the UI, not the library. 
+        /// If the records displayed need to be limited in case of too many records to display in UI, not all records would be exported.
         /// </summary>
         public void ExportListView()
         {

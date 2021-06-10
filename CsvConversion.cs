@@ -48,8 +48,6 @@ namespace ClientListForm
 
             //returns the string inside double-quotes
             return stringBuilder.ToString();
-
-
         }
     }
 }
