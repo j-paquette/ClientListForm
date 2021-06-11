@@ -13,20 +13,12 @@ namespace ClientListForm
 {
     public partial class Form1 : Form
     {
-        //public Library Library { get; set; }
-        //public PublicationProvider PublicationProvider {get; set; }
-
-        PublicationProvider publicationProvider = new PublicationProvider();
-
-        //public Form1(PublicationProvider publicationProvider)
-        //{
-        //    InitializeComponent();
-        //    this.PublicationProvider = publicationProvider;
-        //}
+        private PublicationProvider publicationProvider;
 
         public Form1()
         {
             InitializeComponent();
+            this.publicationProvider = new PublicationProvider();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -36,27 +28,23 @@ namespace ClientListForm
 
         private void displayButton_Click(object sender, EventArgs e)
         {
-            this.PopulateListView();
+            //Same as in ClientListReport.CacheRecordProvider.GetClientData() line 83-87
+            //In multithreading will be handled here
+            //event handler runs the UI thread
+            //call GetLibrary should be called using a separate thread
+            this.PopulateListView(GetLibrary());
         }
 
         public Library GetLibrary()
         {
-            Library library = publicationProvider.GetLibraryData();
+            //Separates business layer 
+            Library library = this.publicationProvider.GetLibraryData();
 
             return library;
         }
 
-        public void PopulateListView()
+        public void PopulateListView(Library library)
         {
-            //TODO: split this to a separate method
-            //business layer. 
-            Library library = publicationProvider.GetLibraryData();
-
-            //Library library = this.PublicationProvider.GetLibraryData();
-
-            //TODO: keep this in this method
-            //application layer
-            //get the library as a parameter
             //start here: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
             //Clear any exising records, not to duplicate them
             lv_Library.Items.Clear();
@@ -131,7 +119,7 @@ namespace ClientListForm
 
         private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.PopulateListView();
+            this.PopulateListView(GetLibrary());
         }
 
         private void btn_Export_Click(object sender, EventArgs e)
