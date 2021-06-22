@@ -8,6 +8,9 @@ using System.Windows.Forms;
 using ClientListForm.Entities;
 using Microsoft.Extensions.DependencyModel;
 using Library = ClientListForm.Entities.Library;
+using System.Threading;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace ClientListForm
 {
@@ -15,10 +18,19 @@ namespace ClientListForm
     {
         private PublicationProvider publicationProvider;
 
+        private readonly BackgroundWorker worker;
+
         public Form1()
         {
             InitializeComponent();
             this.publicationProvider = new PublicationProvider();
+
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += PopulateListView;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -26,10 +38,15 @@ namespace ClientListForm
 
         }
 
-        private void displayButton_Click(object sender, EventArgs e)
+        private void displayButton_Click(object sender, DoWorkEventArgs e)
         {
+            BackgroundWorker bgWorker = (BackgroundWorker)sender;
+
+            bgWorker.ReportProgress(GetLibrary());
+
+
             //Same as in ClientListReport.CacheRecordProvider.GetClientData() line 83-87
-            //In multithreading will be handled here
+            //TODO: add multithreading handling here
             //event handler runs the UI thread
             //call GetLibrary should be called using a separate thread
             this.PopulateListView(GetLibrary());
@@ -37,6 +54,7 @@ namespace ClientListForm
 
         public Library GetLibrary()
         {
+            
             //Separates business layer 
             Library library = this.publicationProvider.GetLibraryData();
 
@@ -96,6 +114,16 @@ namespace ClientListForm
             lbl_UpdatedValue.Text = library.InventoryDate.ToString();
         }
 
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            btn_display.Text = e.ProgressPercentage.ToString();
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btn_display.Enabled = true;
+        }
+
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -119,6 +147,9 @@ namespace ClientListForm
 
         private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
         {
+            worker.RunWorkerAsync();
+            btn_display.Enabled = false;
+
             this.PopulateListView(GetLibrary());
         }
 
