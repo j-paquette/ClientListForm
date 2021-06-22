@@ -13,5 +13,12 @@ namespace ClientListForm.Entities
     {
         public List<PublicationTitle> Titles { get; set; } 
         public DateTime InventoryDate { get; set; }
+
+        //public IEnumerable<PublicationTitle> GetTitlesByLanguageName(string languageName)
+        //{
+        //   filterByLanguageName = Titles.Where(t => t.PublicationLanguages.Any(l => l.Name.Equals(languageName)));
+
+        //    return filterByLanguageName;
+        //}
     }
 }

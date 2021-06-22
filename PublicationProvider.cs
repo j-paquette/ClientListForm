@@ -52,7 +52,7 @@ namespace ClientListForm
             //TODO: find a simple way to add multithreading for when getting records from db takes along time
             //start with this: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
             //uncomment to simulate the app taking a long time to run
-            //System.Threading.Thread.Sleep(45000);
+            System.Threading.Thread.Sleep(45000);
 
             //A more detailed example to show the process
             //var data = new Library();

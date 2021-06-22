@@ -8,25 +8,29 @@ using System.Windows.Forms;
 using ClientListForm.Entities;
 using Microsoft.Extensions.DependencyModel;
 using Library = ClientListForm.Entities.Library;
+using System.Threading;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace ClientListForm
 {
     public partial class Form1 : Form
     {
-        //public Library Library { get; set; }
-        //public PublicationProvider PublicationProvider {get; set; }
+        private PublicationProvider publicationProvider;
 
-        PublicationProvider publicationProvider = new PublicationProvider();
-
-        //public Form1(PublicationProvider publicationProvider)
-        //{
-        //    InitializeComponent();
-        //    this.PublicationProvider = publicationProvider;
-        //}
+        private readonly BackgroundWorker worker;
 
         public Form1()
         {
             InitializeComponent();
+            this.publicationProvider = new PublicationProvider();
+
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += PopulateListView;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -34,29 +38,31 @@ namespace ClientListForm
 
         }
 
-        private void displayButton_Click(object sender, EventArgs e)
+        private void displayButton_Click(object sender, DoWorkEventArgs e)
         {
-            this.PopulateListView();
+            BackgroundWorker bgWorker = (BackgroundWorker)sender;
+
+            bgWorker.ReportProgress(GetLibrary());
+
+            //TODO: Where do I put the DoWorkEventArgs section of the code?
+            //Same as in ClientListReport.CacheRecordProvider.GetClientData() line 83-87
+            //TODO: add multithreading handling here
+            //event handler runs the UI thread
+            //call GetLibrary should be called using a separate thread
+            this.PopulateListView(GetLibrary());
         }
 
         public Library GetLibrary()
         {
-            Library library = publicationProvider.GetLibraryData();
+            
+            //Separates business layer 
+            Library library = this.publicationProvider.GetLibraryData();
 
             return library;
         }
 
-        public void PopulateListView()
+        public void PopulateListView(Library library)
         {
-            //TODO: split this to a separate method
-            //business layer. 
-            Library library = publicationProvider.GetLibraryData();
-
-            //Library library = this.PublicationProvider.GetLibraryData();
-
-            //TODO: keep this in this method
-            //application layer
-            //get the library as a parameter
             //start here: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
             //Clear any exising records, not to duplicate them
             lv_Library.Items.Clear();
@@ -108,6 +114,16 @@ namespace ClientListForm
             lbl_UpdatedValue.Text = library.InventoryDate.ToString();
         }
 
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            btn_display.Text = e.ProgressPercentage.ToString();
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btn_display.Enabled = true;
+        }
+
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -131,7 +147,10 @@ namespace ClientListForm
 
         private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.PopulateListView();
+            worker.RunWorkerAsync();
+            btn_display.Enabled = false;
+
+            this.PopulateListView(GetLibrary());
         }
 
         private void btn_Export_Click(object sender, EventArgs e)
