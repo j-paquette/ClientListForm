@@ -44,7 +44,7 @@ namespace ClientListForm
 
             bgWorker.ReportProgress(GetLibrary());
 
-
+            //TODO: Where do I put the DoWorkEventArgs section of the code?
             //Same as in ClientListReport.CacheRecordProvider.GetClientData() line 83-87
             //TODO: add multithreading handling here
             //event handler runs the UI thread
