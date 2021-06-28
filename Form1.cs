@@ -20,15 +20,16 @@ namespace ClientListForm
 
         private readonly BackgroundWorker worker;
 
+        private Library library;
+
         public Form1()
         {
             InitializeComponent();
             this.publicationProvider = new PublicationProvider();
 
             worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += PopulateListView;
-            worker.ProgressChanged += worker_ProgressChanged;
+            worker.WorkerReportsProgress = false; //no progress reports
+            worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
 
         }
@@ -38,18 +39,19 @@ namespace ClientListForm
 
         }
 
-        private void displayButton_Click(object sender, DoWorkEventArgs e)
+        private void displayButton_Click(object sender, EventArgs e)
         {
-            BackgroundWorker bgWorker = (BackgroundWorker)sender;
+            worker.RunWorkerAsync();
+            btn_display.Enabled = false;
 
-            bgWorker.ReportProgress(GetLibrary());
+            this.UseWaitCursor = true;
 
             //TODO: Where do I put the DoWorkEventArgs section of the code?
             //Same as in ClientListReport.CacheRecordProvider.GetClientData() line 83-87
             //TODO: add multithreading handling here
             //event handler runs the UI thread
             //call GetLibrary should be called using a separate thread
-            this.PopulateListView(GetLibrary());
+            //this.PopulateListView(GetLibrary());
         }
 
         public Library GetLibrary()
@@ -61,6 +63,8 @@ namespace ClientListForm
             return library;
         }
 
+
+        //public void PopulateListView(Library library)
         public void PopulateListView(Library library)
         {
             //start here: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
@@ -76,11 +80,7 @@ namespace ClientListForm
             }
             else
             {
-                //TODO: move library.Titles.Where to Library.cs
-                //This can be used in different scenarios
-                //name method GetTitlesByLanguageName(string languageName)
-                //returns an IEnumerable<PublicationTitle>
-                filteredTitles = library.Titles.Where(t => t.PublicationLanguages.Any(l => l.Name.Equals(this.cbo_Languages.SelectedItem)));
+                filteredTitles = library.GetTitlesByLanguageName(this.cbo_Languages.SelectedItem.ToString());
             }
 
             foreach (PublicationTitle title in filteredTitles)
@@ -114,14 +114,23 @@ namespace ClientListForm
             lbl_UpdatedValue.Text = library.InventoryDate.ToString();
         }
 
-        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            btn_display.Text = e.ProgressPercentage.ToString();
+           this.library = this.GetLibrary();
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             btn_display.Enabled = true;
+            this.UseWaitCursor = false;
+
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.ToString(), "Title", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            this.PopulateListView(this.library);            
         }
 
         private void closeButton_Click(object sender, EventArgs e)
@@ -147,10 +156,18 @@ namespace ClientListForm
 
         private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            worker.RunWorkerAsync();
-            btn_display.Enabled = false;
 
-            this.PopulateListView(GetLibrary());
+            if (this.library == null)
+            {
+                worker.RunWorkerAsync();
+                btn_display.Enabled = false;
+
+                this.UseWaitCursor = true;
+            }
+            else
+            {
+                this.PopulateListView(this.library);
+            }
         }
 
         private void btn_Export_Click(object sender, EventArgs e)
