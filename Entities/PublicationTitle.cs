@@ -8,7 +8,7 @@ namespace ClientListForm.Entities
 {
     /// <summary>
     /// Where the book title details object is stored.
-    /// Similar to EWSUserDetails.Entities.CientData
+    /// Similar to EWSUserDetails.Entities.ClientData?? Or EWSUserDetails.Entities.ClientEntry
     /// TODO: research What is the difference between an object property versus a list property. Look up: difference between class and object.
     /// For example, ClientEntry in AccountWebServiceStatsInfo versus ClientEntry in ClientData?
     /// </summary>

@@ -8,6 +8,7 @@ namespace ClientListForm.Entities
 {
     /// <summary>
     /// Where the PublicationTitle details are stored.
+    /// Similar to EWSUserDetails.Entities.ClientEntry?? or ClientData??
     /// </summary>
     public class Library
     {
