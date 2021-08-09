@@ -47,19 +47,27 @@ namespace ClientListForm
         public override Library GetLibraryData()
         {
             List<PublicationTitle> publicationTitles = new List<PublicationTitle>();
+            try
+            {
+                UpdateListWithPublicationTitle(publicationTitles);
+                //TODO: find a simple way to add multithreading for when getting records from db takes along time
+                //start with this: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
+                //uncomment to simulate the app taking a long time to run
+                //throw new Exception("Hello!");
 
-            UpdateListWithPublicationTitle(publicationTitles);
-            //TODO: find a simple way to add multithreading for when getting records from db takes along time
-            //start with this: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1
-            //uncomment to simulate the app taking a long time to run
-            //throw new Exception("Hello!");
+                System.Threading.Thread.Sleep(10000);
 
-            System.Threading.Thread.Sleep(10000);
+                //A more detailed example to show the process
+                //var data = new Library();
+                //data.Titles = publicationTitles;
+                //return data;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
-            //A more detailed example to show the process
-            //var data = new Library();
-            //data.Titles = publicationTitles;
-            //return data;
+
             return new Library { Titles = publicationTitles, InventoryDate = DateTime.Now };
         }
 
@@ -69,6 +77,8 @@ namespace ClientListForm
         /// <param name="publicationTitleList"></param>
         public void UpdateListWithPublicationTitle(List<PublicationTitle> publicationTitleList)
         {
+            //throw new Exception();
+
             PublicationTitle publication;
 
             //add new record

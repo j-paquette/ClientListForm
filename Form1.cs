@@ -63,8 +63,6 @@ namespace ClientListForm
             return library;
         }
 
-
-        //public void PopulateListView(Library library)
         public void PopulateListView(Library library)
         {
             //start here: https://visualstudiomagazine.com/Articles/2010/11/18/Multithreading-in-WinForms.aspx?m=1&Page=1

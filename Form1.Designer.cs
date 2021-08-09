@@ -55,7 +55,7 @@ namespace ClientListForm
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.lv_Library, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -65,7 +65,7 @@ namespace ClientListForm
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.3755F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.62451F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 313);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(994, 391);
             this.tableLayoutPanel1.TabIndex = 1;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -89,7 +89,7 @@ namespace ClientListForm
             this.lv_Library.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lv_Library.MultiSelect = false;
             this.lv_Library.Name = "lv_Library";
-            this.lv_Library.Size = new System.Drawing.Size(878, 263);
+            this.lv_Library.Size = new System.Drawing.Size(988, 329);
             this.lv_Library.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lv_Library.TabIndex = 0;
             this.lv_Library.UseCompatibleStateImageBehavior = false;
@@ -107,26 +107,32 @@ namespace ClientListForm
             // ch_targetAudience
             // 
             this.ch_targetAudience.Text = "TargetAudience";
+            this.ch_targetAudience.Width = 146;
             // 
             // ch_language
             // 
             this.ch_language.Text = "Language";
+            this.ch_language.Width = 148;
             // 
             // ch_format
             // 
             this.ch_format.Text = "Format";
+            this.ch_format.Width = 110;
             // 
             // ch_subject
             // 
             this.ch_subject.Text = "Subject";
+            this.ch_subject.Width = 112;
             // 
             // ch_available
             // 
             this.ch_available.Text = "Available";
+            this.ch_available.Width = 115;
             // 
             // ch_publishDate
             // 
             this.ch_publishDate.Text = "Published Date";
+            this.ch_publishDate.Width = 148;
             // 
             // flowLayoutPanel1
             // 
@@ -141,10 +147,10 @@ namespace ClientListForm
             this.flowLayoutPanel1.Controls.Add(this.lbl_UpdatedValue);
             this.flowLayoutPanel1.Controls.Add(this.cbo_Languages);
             this.flowLayoutPanel1.Controls.Add(this.btn_Export);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 269);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 335);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(878, 42);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(988, 54);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // btn_display
@@ -153,7 +159,7 @@ namespace ClientListForm
             this.btn_display.Location = new System.Drawing.Point(3, 2);
             this.btn_display.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_display.Name = "btn_display";
-            this.btn_display.Size = new System.Drawing.Size(70, 30);
+            this.btn_display.Size = new System.Drawing.Size(79, 38);
             this.btn_display.TabIndex = 5;
             this.btn_display.Text = "&Display";
             this.btn_display.UseVisualStyleBackColor = true;
@@ -162,10 +168,10 @@ namespace ClientListForm
             // btn_close
             // 
             this.btn_close.AutoSize = true;
-            this.btn_close.Location = new System.Drawing.Point(79, 2);
+            this.btn_close.Location = new System.Drawing.Point(88, 2);
             this.btn_close.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(62, 30);
+            this.btn_close.Size = new System.Drawing.Size(70, 38);
             this.btn_close.TabIndex = 6;
             this.btn_close.Text = "&Close";
             this.btn_close.UseVisualStyleBackColor = true;
@@ -174,9 +180,9 @@ namespace ClientListForm
             // lbl_Updated
             // 
             this.lbl_Updated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbl_Updated.Location = new System.Drawing.Point(147, 2);
+            this.lbl_Updated.Location = new System.Drawing.Point(164, 4);
             this.lbl_Updated.Name = "lbl_Updated";
-            this.lbl_Updated.Size = new System.Drawing.Size(69, 34);
+            this.lbl_Updated.Size = new System.Drawing.Size(78, 42);
             this.lbl_Updated.TabIndex = 3;
             this.lbl_Updated.Text = "Updated:";
             this.lbl_Updated.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -185,9 +191,9 @@ namespace ClientListForm
             // 
             this.lbl_UpdatedValue.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_UpdatedValue.AutoSize = true;
-            this.lbl_UpdatedValue.Location = new System.Drawing.Point(222, 9);
+            this.lbl_UpdatedValue.Location = new System.Drawing.Point(248, 13);
             this.lbl_UpdatedValue.Name = "lbl_UpdatedValue";
-            this.lbl_UpdatedValue.Size = new System.Drawing.Size(31, 17);
+            this.lbl_UpdatedValue.Size = new System.Drawing.Size(35, 20);
             this.lbl_UpdatedValue.TabIndex = 2;
             this.lbl_UpdatedValue.Text = "N/A";
             this.lbl_UpdatedValue.Click += new System.EventHandler(this.lbl_UpdatedValue_Click);
@@ -201,18 +207,20 @@ namespace ClientListForm
             "English",
             "French",
             "Inuktut"});
-            this.cbo_Languages.Location = new System.Drawing.Point(259, 3);
+            this.cbo_Languages.Location = new System.Drawing.Point(289, 4);
+            this.cbo_Languages.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbo_Languages.Name = "cbo_Languages";
-            this.cbo_Languages.Size = new System.Drawing.Size(121, 24);
+            this.cbo_Languages.Size = new System.Drawing.Size(136, 28);
             this.cbo_Languages.TabIndex = 2;
             this.cbo_Languages.SelectedIndexChanged += new System.EventHandler(this.cbo_Languages_SelectedIndexChanged);
             // 
             // btn_Export
             // 
             this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Export.Location = new System.Drawing.Point(386, 3);
+            this.btn_Export.Location = new System.Drawing.Point(431, 4);
+            this.btn_Export.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Export.Name = "btn_Export";
-            this.btn_Export.Size = new System.Drawing.Size(80, 30);
+            this.btn_Export.Size = new System.Drawing.Size(90, 38);
             this.btn_Export.TabIndex = 7;
             this.btn_Export.Text = "&Export";
             this.btn_Export.UseVisualStyleBackColor = true;
@@ -220,9 +228,9 @@ namespace ClientListForm
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 313);
+            this.ClientSize = new System.Drawing.Size(994, 391);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
