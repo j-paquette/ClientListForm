@@ -198,7 +198,7 @@ namespace ClientListForm
                             //Display the column headers in the first line
                             foreach (ColumnHeader column in lv_Library.Columns)
                             {
-                                stringBuilder.Append($"{column.Text},");
+                                stringBuilder.Append($"{CsvConversion.SimpleConvert(column.Text)},");
                             }
                             stringBuilder.AppendLine();
                             //foreach (ListViewItem item in lv_Library.Items)
