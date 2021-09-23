@@ -192,13 +192,34 @@ namespace ClientListForm
                         using (StreamWriter streamWriter = new StreamWriter(new FileStream(saveFileDialog.FileName, FileMode.Create), Encoding.UTF8))
                         {
                             StringBuilder stringBuilder = new StringBuilder();
-                            stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
+                            //stringBuilder.AppendLine("Title,Author,TargetAudience,PublicationLanguages,BookFormat,MainSubject,Available,PublicationDate");
+                            //Rewrite above line as foreach below. To avoid hard-coded columnHeaders, in case columns are removed, renamed, new ones added, etc
+
+                            //Display the column headers in the first line
+                            foreach (ColumnHeader column in lv_Library.Columns)
+                            {
+                                stringBuilder.Append($"{CsvConversion.SimpleConvert(column.Text)},");
+                            }
+                            stringBuilder.AppendLine();
+                            //foreach (ListViewItem item in lv_Library.Items)
+                            //{
+                            //    //Note: if this was a web app, use Streamwriter.writeline so as not to save the whole record in memory before saving.
+                            //    stringBuilder.AppendLine($"{CsvConversion.SimpleConvert(item.SubItems[0].Text)},{CsvConversion.SimpleConvert(item.SubItems[1].Text)},{CsvConversion.SimpleConvert(item.SubItems[2].Text)},{CsvConversion.SimpleConvert(item.SubItems[3].Text)},{CsvConversion.SimpleConvert(item.SubItems[4].Text)},{CsvConversion.SimpleConvert(item.SubItems[5].Text)},{CsvConversion.SimpleConvert(item.SubItems[6].Text)},{CsvConversion.SimpleConvert(item.SubItems[7].Text)}");
+                            //}
+
+                            //Displays each row
                             foreach (ListViewItem item in lv_Library.Items)
                             {
-                                //Note: if this was a web app, use STreamwriter.writeline so as not to save the whole record in memory before saving.
-                                stringBuilder.AppendLine($"{CsvConversion.SimpleConvert(item.SubItems[0].Text)},{CsvConversion.SimpleConvert(item.SubItems[1].Text)},{CsvConversion.SimpleConvert(item.SubItems[2].Text)},{CsvConversion.SimpleConvert(item.SubItems[3].Text)},{CsvConversion.SimpleConvert(item.SubItems[4].Text)},{CsvConversion.SimpleConvert(item.SubItems[5].Text)},{CsvConversion.SimpleConvert(item.SubItems[6].Text)},{CsvConversion.SimpleConvert(item.SubItems[7].Text)}");
+                                //Displays data in each column
+                                foreach (ListViewItem.ListViewSubItem subItem in item.SubItems)
+                                {
+                                    //Print the data
+                                    //Note: if this was a web app, use Streamwriter.writeline so as not to save the whole record in memory before saving.
+                                    stringBuilder.Append($"{CsvConversion.SimpleConvert(subItem.Text)},");
+                                    //stringBuilder.Append($"{subItem.Text},")
+                                }
+                                stringBuilder.AppendLine();
                             }
-                            
                             streamWriter.WriteLine(stringBuilder.ToString());
                             MessageBox.Show("Your data has been successfully exported.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
