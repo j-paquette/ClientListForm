@@ -11,6 +11,7 @@ using Library = ClientListForm.Entities.Library;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ClientListForm
 {
@@ -22,7 +23,7 @@ namespace ClientListForm
 
         private Library library;
 
-        private ListViewItemComparer ListViewItemComparer;
+        //private ListViewItemComparer ListViewItemComparer;
 
         public Form1()
         {
@@ -109,8 +110,22 @@ namespace ClientListForm
                 row.SubItems.Add(title.Available.ToString());
                 row.SubItems.Add(title.PublicationDate.ToString("yyyy-MM-dd"));
 
+                //add the column as a clickable Url
+                row.SubItems.Add(title.GetUrl.ToString());
+
+                //if SubItems is
+                if (lv_Library.SubItems)
+                {
+
+                }
+                this.lv_Library.Items[8].
+
+                //Add the row for each of the records in PublicationProvider to the list view
                 this.lv_Library.Items.Add(row);
             }
+
+            //set HotTracking to true, to enable the Url
+            //this.lv_Library.HotTracking = true;
 
             this.lv_Library.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
@@ -183,6 +198,33 @@ namespace ClientListForm
         private void btn_Export_Click(object sender, EventArgs e)
         {
             this.ExportListView();
+        }
+
+        private void lv_Library_MouseMove(object sender, MouseEventArgs e)
+        {
+            //ListViewItem selection = lv_Library.GetItemAt(e.X, e.Y);
+            var hit = lv_Library.HitTest(e.Location);
+            if (hit.SubItem != null && hit.SubItem == hit.Item.SubItems[8])
+            {
+                lv_Library.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                lv_Library.Cursor = Cursors.Default;
+            }
+        }
+
+        private void lv_Library_MouseUp(object sender, MouseEventArgs e)
+        {
+            var hit = lv_Library.HitTest(e.Location);
+
+            if (hit.SubItem != null && hit.SubItem == hit.Item.SubItems[8])
+            {
+                var url = new Uri(hit.SubItem.Text);
+
+                Process.Start(url.ToString());
+            }
+            
         }
 
         /// <summary>
