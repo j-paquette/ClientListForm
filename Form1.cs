@@ -24,11 +24,7 @@ namespace ClientListForm
 
         private Library library;
 
-        //Declare helper variables to track mouse movement item  under the cursor
-        //int currHitRow = -1;
-        //int lastHitRow = +1;
-        //Point curMouse = Point.Empty;
-        ListViewItem.ListViewSubItem selectedSubItem;
+
 
 
         public Form1()
@@ -45,10 +41,7 @@ namespace ClientListForm
             this.lv_Library.ColumnClick += new ColumnClickEventHandler(ColumnClick);
         }
 
-        //private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        //{
 
-        //}
 
         private void displayButton_Click(object sender, EventArgs e)
         {
@@ -114,13 +107,9 @@ namespace ClientListForm
                 row.SubItems.Add(title.MainSubject.ToString());
                 row.SubItems.Add(title.Available.ToString());
                 row.SubItems.Add(title.PublicationDate.ToString("yyyy-MM-dd"));
-
-                //setup to enable color changes for the GetUrl column, when using the mouse to click the Url
-                row.UseItemStyleForSubItems = false;
                 
                 //add the column as a clickable Url
                 row.SubItems.Add(title.GetUrl.ToString());
-                this.lv_Library.HotTracking = true;
                 
 
                 //Add the row for each of the records in PublicationProvider to the list view
@@ -207,99 +196,16 @@ namespace ClientListForm
         {
             ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
 
-            if (hit.SubItem == selectedSubItem)
+            if (hit.SubItem != null && (hit.Item.SubItems[8] == hit.SubItem || hit.Item.SubItems[7] == hit.SubItem))
             {
-                return;
+                lv_Library.Cursor = Cursors.Hand;
             }
-
-            if (selectedSubItem != null)
+            else
             {
-                selectedSubItem.Font = lv_Library.Font;
-                selectedSubItem = null;
                 lv_Library.Cursor = Cursors.Default;
             }
-
-            if (hit.SubItem != null && hit.Item.SubItems[8] == hit.SubItem)
-            {
-                hit.SubItem.Font = new Font(hit.SubItem.Font, FontStyle.Underline);
-
-                lv_Library.Cursor = Cursors.Hand;
-                selectedSubItem = hit.SubItem;
-            }
         }
 
-        //private void lv_Library_MouseMove(object sender, MouseEventArgs e)
-        //{          
-        //    ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
-        //    if (hit.SubItem != null && hit.SubItem == hit.Item.SubItems[8])
-        //    {
-        //        if (currHitRow != lastHitRow)
-        //        {
-        //            lastHitRow = currHitRow;
-        //            currHitRow = hit.Item.Index;
-        //        }
-
-        //        if (lastHitRow >= 0 && currHitRow != lastHitRow)
-        //        {
-        //            lv_Library.Invalidate();
-        //        }
-        //        lv_Library.Cursor = Cursors.Hand;
-        //    }
-        //    else
-        //    {
-        //        lv_Library.Cursor = Cursors.Default;
-        //        curMouse = e.Location;
-        //    }
-        //}
-
-        private void lv_Library_MouseUp(object sender, MouseEventArgs e)
-        {
-            ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
-
-            if (hit.SubItem != null && hit.SubItem == hit.Item.SubItems[8])
-            {
-                
-                var url = new Uri(hit.SubItem.Text);
-
-                Process.Start(url.ToString());
-            }
-
-        }
-
-       // private void lv_Library_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-       // {
-       //     e.DrawDefault = true;
-       // }
-
-       // private void lv_Library_DrawItem(object sender, DrawListViewItemEventArgs e)
-       // {
-       //     e.DrawDefault = true;
-       // }
-
-       //private void lv_Library_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-       // {
-       //     if (e.ColumnIndex != 1)
-       //     {
-       //         e.DrawDefault = true;
-       //     }
-       //     else
-       //     {
-       //         ListViewHitTestInfo hit = lv_Library.HitTest(curMouse);
-       //         if (hit.Item == null)
-       //         {
-       //             e.DrawDefault = true;
-       //             return;
-       //         }
-       //         bool showLink = e.SubItem.Text.Substring(0, 8) == hit.SubItem.Text && e.Item.Index == hit.Item.Index;
-
-       //         e.DrawBackground();
-
-       //         using (Font font = new Font(lv_Library.Font, showLink ? FontStyle.Underline : FontStyle.Regular))
-       //         {
-       //             e.Graphics.DrawString(e.SubItem.Text, font, showLink ? SystemBrushes.HotTrack : SystemBrushes.ControlText, e.Bounds);
-       //         }
-       //     }
-       // }
 
         /// <summary>
         /// Export button that exports records displayed in UI to a .csv file
@@ -352,5 +258,48 @@ namespace ClientListForm
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void lv_Library_MouseUp(object sender, MouseEventArgs e)
+        {
+            ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
+            try 
+            { 
+            if (e.Button != MouseButtons.Left || hit.SubItem == null || string.IsNullOrWhiteSpace(hit.SubItem.Text))
+            {
+                return;
+            }
+
+            if (hit.SubItem == hit.Item.SubItems[8])
+            {
+                Uri url = new Uri(hit.SubItem.Text);
+
+                //Keep for troubleshooting opening multiple MoveUp events
+                //System.Diagnostics.Debug.WriteLine(url.ToString() + " " + e.Button.ToString() + " " + e.Clicks);
+
+                //starts process.start in another thread, otherwise Process.Start somehow triggers multiple MouseUp events
+                Task t1 = new Task(() => Process.Start(url.ToString()));
+
+                t1.Start();
+            }
+            else if (hit.SubItem == hit.Item.SubItems[7])
+            {
+                Task t1 = new Task(() => Process.Start("mailto:josee.n.paquette@hrsdc-rhdcc.gc.ca"));
+                    //for not hardcoding email address, use Process.Start("mailto:" + hit.SubItem.Text)
+
+                    t1.Start();
+
+            }
+            else if (hit.SubItem == hit.Item.SubItems[6])
+            {
+                Clipboard.SetText(hit.SubItem.Text);
+                MessageBox.Show(this,"Your text has been copied to clipboard.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+           }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

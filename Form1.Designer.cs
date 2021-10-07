@@ -68,7 +68,6 @@ namespace ClientListForm
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.62451F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1133, 313);
             this.tableLayoutPanel1.TabIndex = 1;
-            //this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // lv_Library
             // 
@@ -97,7 +96,8 @@ namespace ClientListForm
             this.lv_Library.TabIndex = 0;
             this.lv_Library.UseCompatibleStateImageBehavior = false;
             this.lv_Library.View = System.Windows.Forms.View.Details;
-            //this.lv_Library.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.lv_Library.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lv_Library_MouseMove);
+            this.lv_Library.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lv_Library_MouseUp);
             // 
             // ch_title
             // 
