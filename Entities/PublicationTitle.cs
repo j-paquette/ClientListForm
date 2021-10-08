@@ -23,5 +23,6 @@ namespace ClientListForm.Entities
         public Subject MainSubject { get; set; } 
         public bool Available { get; set; }
         public DateTime PublicationDate { get; set; }
+        public Uri GetUrl { get; set; }
     }
 }

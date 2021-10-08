@@ -62,7 +62,7 @@ namespace ClientListForm
                 //data.Titles = publicationTitles;
                 //return data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -90,6 +90,7 @@ namespace ClientListForm
                 MainSubject = Subject.Fiction,
                 Available = true,
                 PublicationDate = new DateTime(2012, 08, 13),
+                GetUrl = new Uri("https://www.goodreads.com/book/show/13526165-where-d-you-go-bernadette"),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -111,6 +112,7 @@ namespace ClientListForm
                 MainSubject = Subject.Fiction,
                 Available = true,
                 PublicationDate = new DateTime(2013, 04, 22),
+                GetUrl = new Uri("https://www.goodreads.com/book/show/13526165-where-d-you-go-bernadette"),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -133,6 +135,7 @@ namespace ClientListForm
                 MainSubject = Subject.Nonfiction,
                 Available = false,
                 PublicationDate = new DateTime(2020, 08, 18),
+                GetUrl = new Uri("https://www.goodreads.com/en/book/show/49348224-grasp"),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -154,6 +157,7 @@ namespace ClientListForm
                 MainSubject = Subject.Fiction,
                 Available = true,
                 PublicationDate = new DateTime(1907, 06, 10),
+                GetUrl = new Uri("https://www.renaud-bray.com/Livres_Produit.aspx?id=3348294&def=Ars%C3%A8ne+Lupin%2C+gentleman-cambrioleur%2CLEBLANC%2C+MAURICE%2C9782016285169"),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -175,6 +179,7 @@ namespace ClientListForm
                 MainSubject = Subject.Mystery,
                 Available = false,
                 PublicationDate = new DateTime(2020, 08, 24),
+                GetUrl = new Uri("https://www.goodreads.com/book/show/50644565-squeeze-me"),
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -196,6 +201,7 @@ namespace ClientListForm
                 MainSubject = Subject.Nonfiction,
                 Available = true,
                 PublicationDate = new DateTime(1973, 03, 10),
+                GetUrl = new Uri("https://www.protegez-vous.ca/"),
             };
 
             publication.Formats.Add(new FormatEntry()

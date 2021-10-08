@@ -11,6 +11,8 @@ using Library = ClientListForm.Entities.Library;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace ClientListForm
 {
@@ -22,7 +24,8 @@ namespace ClientListForm
 
         private Library library;
 
-        private ListViewItemComparer ListViewItemComparer;
+
+
 
         public Form1()
         {
@@ -36,13 +39,9 @@ namespace ClientListForm
 
             // Connect the ListView.ColumnClick event to the ColumnClick event handler.
             this.lv_Library.ColumnClick += new ColumnClickEventHandler(ColumnClick);
-
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
 
-        }
 
         private void displayButton_Click(object sender, EventArgs e)
         {
@@ -108,9 +107,17 @@ namespace ClientListForm
                 row.SubItems.Add(title.MainSubject.ToString());
                 row.SubItems.Add(title.Available.ToString());
                 row.SubItems.Add(title.PublicationDate.ToString("yyyy-MM-dd"));
+                
+                //add the column as a clickable Url
+                row.SubItems.Add(title.GetUrl.ToString());
+                
 
+                //Add the row for each of the records in PublicationProvider to the list view
                 this.lv_Library.Items.Add(row);
             }
+
+            //set HotTracking to true, to enable the Url
+            //this.lv_Library.HotTracking = true;
 
             this.lv_Library.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
@@ -148,10 +155,10 @@ namespace ClientListForm
             this.Close();
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        //private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        //{
             
-        }
+        //}
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -184,6 +191,21 @@ namespace ClientListForm
         {
             this.ExportListView();
         }
+
+        private void lv_Library_MouseMove(object sender, MouseEventArgs e)
+        {
+            ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
+
+            if (hit.SubItem != null && (hit.Item.SubItems[8] == hit.SubItem || hit.Item.SubItems[7] == hit.SubItem))
+            {
+                lv_Library.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                lv_Library.Cursor = Cursors.Default;
+            }
+        }
+
 
         /// <summary>
         /// Export button that exports records displayed in UI to a .csv file
@@ -236,5 +258,48 @@ namespace ClientListForm
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void lv_Library_MouseUp(object sender, MouseEventArgs e)
+        {
+            ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
+            try 
+            { 
+            if (e.Button != MouseButtons.Left || hit.SubItem == null || string.IsNullOrWhiteSpace(hit.SubItem.Text))
+            {
+                return;
+            }
+
+            if (hit.SubItem == hit.Item.SubItems[8])
+            {
+                Uri url = new Uri(hit.SubItem.Text);
+
+                //Keep for troubleshooting opening multiple MoveUp events
+                //System.Diagnostics.Debug.WriteLine(url.ToString() + " " + e.Button.ToString() + " " + e.Clicks);
+
+                //starts process.start in another thread, otherwise Process.Start somehow triggers multiple MouseUp events
+                Task t1 = new Task(() => Process.Start(url.ToString()));
+
+                t1.Start();
+            }
+            else if (hit.SubItem == hit.Item.SubItems[7])
+            {
+                Task t1 = new Task(() => Process.Start("mailto:josee.n.paquette@hrsdc-rhdcc.gc.ca"));
+                    //for not hardcoding email address, use Process.Start("mailto:" + hit.SubItem.Text)
+
+                    t1.Start();
+
+            }
+            else if (hit.SubItem == hit.Item.SubItems[6])
+            {
+                Clipboard.SetText(hit.SubItem.Text);
+                MessageBox.Show(this,"Your text has been copied to clipboard.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+           }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
