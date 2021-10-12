@@ -47,6 +47,7 @@ namespace ClientListForm
             this.lbl_UpdatedValue = new System.Windows.Forms.Label();
             this.cbo_Languages = new System.Windows.Forms.ComboBox();
             this.btn_Export = new System.Windows.Forms.Button();
+            this.ch_Email = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +82,8 @@ namespace ClientListForm
             this.ch_subject,
             this.ch_available,
             this.ch_publishDate,
-            this.ch_GetUrl});
+            this.ch_GetUrl,
+            this.ch_Email});
             this.lv_Library.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_Library.FullRowSelect = true;
             this.lv_Library.GridLines = true;
@@ -232,6 +234,11 @@ namespace ClientListForm
             this.btn_Export.UseVisualStyleBackColor = true;
             this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
             // 
+            // ch_Email
+            // 
+            this.ch_Email.Text = "Email";
+            this.ch_Email.Width = 150;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -270,6 +277,7 @@ namespace ClientListForm
         private System.Windows.Forms.ComboBox cbo_Languages;
         private System.Windows.Forms.Button btn_Export;
         private System.Windows.Forms.ColumnHeader ch_GetUrl;
+        private System.Windows.Forms.ColumnHeader ch_Email;
     }
 }
 

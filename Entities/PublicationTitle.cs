@@ -24,5 +24,6 @@ namespace ClientListForm.Entities
         public bool Available { get; set; }
         public DateTime PublicationDate { get; set; }
         public Uri GetUrl { get; set; }
+        public string GetEmail { get; set; }
     }
 }

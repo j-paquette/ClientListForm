@@ -24,9 +24,6 @@ namespace ClientListForm
 
         private Library library;
 
-
-
-
         public Form1()
         {
             InitializeComponent();
@@ -40,8 +37,6 @@ namespace ClientListForm
             // Connect the ListView.ColumnClick event to the ColumnClick event handler.
             this.lv_Library.ColumnClick += new ColumnClickEventHandler(ColumnClick);
         }
-
-
 
         private void displayButton_Click(object sender, EventArgs e)
         {
@@ -60,7 +55,7 @@ namespace ClientListForm
 
         public Library GetLibrary()
         {
-            
+
             //Separates business layer 
             Library library = this.publicationProvider.GetLibraryData();
 
@@ -107,17 +102,12 @@ namespace ClientListForm
                 row.SubItems.Add(title.MainSubject.ToString());
                 row.SubItems.Add(title.Available.ToString());
                 row.SubItems.Add(title.PublicationDate.ToString("yyyy-MM-dd"));
-                
-                //add the column as a clickable Url
                 row.SubItems.Add(title.GetUrl.ToString());
-                
+                row.SubItems.Add(title.GetEmail.ToString());
 
                 //Add the row for each of the records in PublicationProvider to the list view
                 this.lv_Library.Items.Add(row);
             }
-
-            //set HotTracking to true, to enable the Url
-            //this.lv_Library.HotTracking = true;
 
             this.lv_Library.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
@@ -126,7 +116,7 @@ namespace ClientListForm
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-           this.library = this.GetLibrary();
+            this.library = this.GetLibrary();
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -140,7 +130,7 @@ namespace ClientListForm
                 return;
             }
 
-            this.PopulateListView(this.library);            
+            this.PopulateListView(this.library);
         }
 
         private void ColumnClick(object o, ColumnClickEventArgs e)
@@ -150,15 +140,11 @@ namespace ClientListForm
             this.lv_Library.ListViewItemSorter = new ListViewItemComparer(e.Column);
         }
 
+
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        //private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-            
-        //}
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -166,9 +152,10 @@ namespace ClientListForm
             this.cbo_Languages.SelectedIndex = 0;
         }
 
+
         private void lbl_UpdatedValue_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void cbo_Languages_SelectedIndexChanged(object sender, EventArgs e)
@@ -196,13 +183,23 @@ namespace ClientListForm
         {
             ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
 
-            if (hit.SubItem != null && (hit.Item.SubItems[8] == hit.SubItem || hit.Item.SubItems[7] == hit.SubItem))
+            //declare the column header Url
+            //string columnUrl = lv_Library.Columns[8].Text;
+
+            try
             {
-                lv_Library.Cursor = Cursors.Hand;
+                if (hit.SubItem != null && (hit.Item.SubItems[8] == hit.SubItem || hit.Item.SubItems[8] == hit.SubItem))
+                {
+                    lv_Library.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    lv_Library.Cursor = Cursors.Default;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                lv_Library.Cursor = Cursors.Default;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -262,39 +259,50 @@ namespace ClientListForm
         private void lv_Library_MouseUp(object sender, MouseEventArgs e)
         {
             ListViewHitTestInfo hit = lv_Library.HitTest(e.Location);
-            try 
-            { 
-            if (e.Button != MouseButtons.Left || hit.SubItem == null || string.IsNullOrWhiteSpace(hit.SubItem.Text))
+
+            //hit.SubItem.Text = publication.GetUrl.ToString();
+
+            //declare the Url column by name
+            //ch_GetUrl.Text = lv_Library.Columns.ToString(ch_GetUrl);
+
+            //lbl_UpdatedValue.Text = library.InventoryDate.ToString();
+            //var urlColumn = this.lv_Library.Columns(ch_GetUrl);
+
+            try
             {
-                return;
-            }
+                if (e.Button != MouseButtons.Left || hit.SubItem == null || string.IsNullOrWhiteSpace(hit.SubItem.Text))
+                {
+                    return;
+                }
+                //Checks if user clicks a Url under the Url columnHeader
+                if (hit.SubItem == hit.Item.SubItems[8])
+                {
+                    Uri url = new Uri(hit.SubItem.Text);
 
-            if (hit.SubItem == hit.Item.SubItems[8])
-            {
-                Uri url = new Uri(hit.SubItem.Text);
+                    //Keep for troubleshooting opening multiple MoveUp events
+                    //System.Diagnostics.Debug.WriteLine(url.ToString() + " " + e.Button.ToString() + " " + e.Clicks);
 
-                //Keep for troubleshooting opening multiple MoveUp events
-                //System.Diagnostics.Debug.WriteLine(url.ToString() + " " + e.Button.ToString() + " " + e.Clicks);
+                    //starts process.start in another thread, otherwise Process.Start somehow triggers multiple MouseUp events
+                    //Uses MS Edge browser, no matter what the user's browser default is
+                    Task t1 = new Task(() => Process.Start("msedge.exe", url.ToString()));
 
-                //starts process.start in another thread, otherwise Process.Start somehow triggers multiple MouseUp events
-                Task t1 = new Task(() => Process.Start(url.ToString()));
-
-                t1.Start();
-            }
-            else if (hit.SubItem == hit.Item.SubItems[7])
-            {
-                Task t1 = new Task(() => Process.Start("mailto:josee.n.paquette@hrsdc-rhdcc.gc.ca"));
+                    t1.Start();
+                }
+                else if (hit.SubItem == hit.Item.SubItems[9])
+                {
+                    //Task t1 = new Task(() => Process.Start("mailto:josee.n.paquette@hrsdc-rhdcc.gc.ca"));
                     //for not hardcoding email address, use Process.Start("mailto:" + hit.SubItem.Text)
+                    Task t1 = new Task(() => Process.Start("mailto:" + hit.SubItem.Text));
 
                     t1.Start();
 
+                }
+                else if (hit.SubItem == hit.Item.SubItems[6])
+                {
+                    Clipboard.SetText(hit.SubItem.Text);
+                    MessageBox.Show(this, "Your text has been copied to clipboard.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            else if (hit.SubItem == hit.Item.SubItems[6])
-            {
-                Clipboard.SetText(hit.SubItem.Text);
-                MessageBox.Show(this,"Your text has been copied to clipboard.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-           }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -66,8 +66,6 @@ namespace ClientListForm
             {
                 throw;
             }
-
-
             return new Library { Titles = publicationTitles, InventoryDate = DateTime.Now };
         }
 
@@ -91,6 +89,7 @@ namespace ClientListForm
                 Available = true,
                 PublicationDate = new DateTime(2012, 08, 13),
                 GetUrl = new Uri("https://www.goodreads.com/book/show/13526165-where-d-you-go-bernadette"),
+                GetEmail = "josee.n.paquette@hrsdc-rhdcc.gc.ca",
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -113,6 +112,7 @@ namespace ClientListForm
                 Available = true,
                 PublicationDate = new DateTime(2013, 04, 22),
                 GetUrl = new Uri("https://www.goodreads.com/book/show/13526165-where-d-you-go-bernadette"),
+                GetEmail = "josee.n.paquette1",
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -136,6 +136,7 @@ namespace ClientListForm
                 Available = false,
                 PublicationDate = new DateTime(2020, 08, 18),
                 GetUrl = new Uri("https://www.goodreads.com/en/book/show/49348224-grasp"),
+                GetEmail = "josee.n.paquette2",
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -158,6 +159,7 @@ namespace ClientListForm
                 Available = true,
                 PublicationDate = new DateTime(1907, 06, 10),
                 GetUrl = new Uri("https://www.renaud-bray.com/Livres_Produit.aspx?id=3348294&def=Ars%C3%A8ne+Lupin%2C+gentleman-cambrioleur%2CLEBLANC%2C+MAURICE%2C9782016285169"),
+                GetEmail = "josee.n.paquette3",
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -180,6 +182,7 @@ namespace ClientListForm
                 Available = false,
                 PublicationDate = new DateTime(2020, 08, 24),
                 GetUrl = new Uri("https://www.goodreads.com/book/show/50644565-squeeze-me"),
+                GetEmail = "josee.n.paquette4",
             };
 
             publication.Formats.Add(new FormatEntry()
@@ -202,6 +205,7 @@ namespace ClientListForm
                 Available = true,
                 PublicationDate = new DateTime(1973, 03, 10),
                 GetUrl = new Uri("https://www.protegez-vous.ca/"),
+                GetEmail = "josee.n.paquette5",
             };
 
             publication.Formats.Add(new FormatEntry()
